@@ -1,0 +1,13 @@
+---
+title: "Proyecto_Modelos"
+author: "Benito Pastor Sanchez & Pedro Gil Martin & Rosa Martinez Enrich"
+date: "2023-04-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Pru
+
