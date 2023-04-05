@@ -8,6 +8,74 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# Librerías
 
-Pru
+```{r}
+library(readr)
+library(dplyr)
+```
+
+# Importación de los Datos
+```{r}
+datos<- read_csv("FIC.Full CSV.csv", show_col_types = F)
+datos2<- datos %>% select(-c(5, 8, 12, 15, 18,19, 21, 22, 23,24, 25,26,27,28,29,51, 56, 57, 58, 60, 6, 15, 17, 21,40,41, 50, 52, 54))
+```
+# Análisis univariante
+
+## Variables
+```{r}
+colnames(datos)
+```
+```{r}
+colnames(datos2)
+```
+Age--> Edad
+Age Group--> Grupo de Edad
+Gender --> Género
+Locality--> Rural o Urbano
+Sleep --> Dormir o no 
+Depressionn --> Depresión o no
+Hyperlipi --> Alteraciones en las grasas o no
+Smoking --> Fuma o no
+F.Historia--> Hay historia familiar o no
+Diabetes--> Tiene o no
+Allergies --> Tiene alergias o no
+B.Urea --> Nitrógeno ureico en sangre
+Hemoglobin --> Hemoglobina
+PCV-->  porcentaje de glóbulos rojos (RBC) con respecto al volumen total de sangre
+MCV--> media del volumen individual de los eritrocitos (glóbulos rojos)
+MCH--> hemoglobina corpuscular media
+MCHC--> concentración de hemoglobina en un glóbulo rojo promedio
+PLATELET_COUNT--> número de plaquetas
+NEUTROPHIL--> neutrófilos
+LYMPHO--> cantidad de linfa
+MONOCYTE--> cantidad de monocitos
+EOSINO--> cantidad de eosinófilos
+DIAGNOSIS--> diagnosis
+Hypersensitivity--> hipersensibilidad o no
+cp-->tipo de dolor en el pecho
+chol--> colestoral en mg/dl obtenido a través del sensor de IMC
+FBS--> (azúcar en sangre en ayunas > 120 mg/dl) (1 = verdadero; 0 = falso)
+trestbps--> presión arterial en reposo (en mm Hg)
+restecg-->resultados electrocardiográficos en reposo 
+  -- Valor 0: normal
+  -- Valor 1: tener anomalía de la onda ST-T (inversiones de la onda T y/o elevación del ST o depresión de > 0,05 mV)
+  -- Valor 2: mostrar hipertrofia ventricular izquierda probable o definida según los criterios de Estrés
+Thalach--> frecuencia cardíaca máxima alcanzada
+ca--> cantidad de una proteína llamada CA 19-9 (antígeno del cáncer 19-9) en la sangre
+thal--> talasemia
+num-->  número de afectados           
+mortality--> muerte o no     
+
+
+
+## Resumen sobre las variables (mínimo, máximo, media, mediana, primer y tercer cuartil
+```{r}
+summary(datos)
+```
+
+
+
+
+
 
