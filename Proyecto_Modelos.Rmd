@@ -3,79 +3,124 @@ title: "Proyecto_Modelos"
 author: "Benito Pastor Sanchez & Pedro Gil Martin & Rosa Martinez Enrich"
 date: "2023-04-04"
 output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-# Librerías
+
+# 1. Objetivo
+
+El objetivo es estudiar mediante unas variables resultado de un análisis
+clínico y situaciones personales, si un paciente sobrevivirá o no y si
+lo hará antes de llegar a un período de estudio o lo hará
+posteriormente, es decir, clasificaremos al paciente, que podrá
+pertenecer a cuatro categorías posibles.
+
+1.  **Sobrevive** siendo el tiempo de estudio **inferior** a la mediana
+    del tiempo de estudio de todos los pacientes.
+
+2.  **Sobrevive** siendo el tiempo de estudio **superior** a la mediana
+    del tiempo de estudio de todos los pacientes.
+
+3.  **No sobrevive** siendo el tiempo de estudio **inferior** a la
+    mediana del tiempo de estudio de todos los pacientes.
+
+4.  **No sobrevive** siendo el tiempo de estudio **superior** a la
+    mediana del tiempo de estudio de todos los pacientes.
+
+
+# 2. Carga de librerías
 
 ```{r}
 library(readr)
 library(dplyr)
+library("HSAUR3")
 ```
 
-# Importación de los Datos
+# 3. Importación de los Datos
+
 ```{r}
 datos<- read_csv("FIC.Full CSV.csv", show_col_types = F)
-datos2<- datos %>% select(-c(5, 8, 12, 15, 18,19, 21, 22, 23,24, 25,26,27,28,29,51, 56, 57, 58, 60, 6, 15, 17, 21,40,41, 50, 52, 54))
-```
-# Análisis univariante
 
-## Variables
+```
+
+# 4. Acondicionamiento de los datos
+
+## 4.1. Variables
+En este apartado, se seleccionarán las variables que consideramos más importantes que supondrán menor complejidad a la hora de estudiar a los pacientes.
+```{r}
+datos2<- datos %>% select(-c(2, 4, 5, 6, 8, 13, 19,
+                             ))
+```
+
 ```{r}
 colnames(datos)
 ```
+
 ```{r}
 colnames(datos2)
 ```
-Age--> Edad
-Age Group--> Grupo de Edad
-Gender --> Género
-Locality--> Rural o Urbano
-Sleep --> Dormir o no 
-Depressionn --> Depresión o no
-Hyperlipi --> Alteraciones en las grasas o no
-Smoking --> Fuma o no
-F.Historia--> Hay historia familiar o no
-Diabetes--> Tiene o no
-Allergies --> Tiene alergias o no
-B.Urea --> Nitrógeno ureico en sangre
-Hemoglobin --> Hemoglobina
-PCV-->  porcentaje de glóbulos rojos (RBC) con respecto al volumen total de sangre
-MCV--> media del volumen individual de los eritrocitos (glóbulos rojos)
-MCH--> hemoglobina corpuscular media
-MCHC--> concentración de hemoglobina en un glóbulo rojo promedio
-PLATELET_COUNT--> número de plaquetas
-NEUTROPHIL--> neutrófilos
-LYMPHO--> cantidad de linfa
-MONOCYTE--> cantidad de monocitos
-EOSINO--> cantidad de eosinófilos
-DIAGNOSIS--> diagnosis
-Hypersensitivity--> hipersensibilidad o no
-cp-->tipo de dolor en el pecho
-chol--> colestoral en mg/dl obtenido a través del sensor de IMC
-FBS--> (azúcar en sangre en ayunas > 120 mg/dl) (1 = verdadero; 0 = falso)
-trestbps--> presión arterial en reposo (en mm Hg)
-restecg-->resultados electrocardiográficos en reposo 
-  -- Valor 0: normal
-  -- Valor 1: tener anomalía de la onda ST-T (inversiones de la onda T y/o elevación del ST o depresión de > 0,05 mV)
-  -- Valor 2: mostrar hipertrofia ventricular izquierda probable o definida según los criterios de Estrés
-Thalach--> frecuencia cardíaca máxima alcanzada
-ca--> cantidad de una proteína llamada CA 19-9 (antígeno del cáncer 19-9) en la sangre
-thal--> talasemia
-num-->  número de afectados           
-mortality--> muerte o no     
 
-
+Age--\> Edad Age Group--\> Grupo de Edad Gender --\> Género Locality--\>
+Rural o Urbano Sleep --\> Dormir o no Depressionn --\> Depresión o no
+Hyperlipi --\> Alteraciones en las grasas o no Smoking --\> Fuma o no
+F.Historia--\> Hay historia familiar o no Diabetes--\> Tiene o no
+Allergies --\> Tiene alergias o no B.Urea --\> Nitrógeno ureico en
+sangre Hemoglobin --\> Hemoglobina PCV--\> porcentaje de glóbulos rojos
+(RBC) con respecto al volumen total de sangre MCV--\> media del volumen
+individual de los eritrocitos (glóbulos rojos) MCH--\> hemoglobina
+corpuscular media MCHC--\> concentración de hemoglobina en un glóbulo
+rojo promedio PLATELET_COUNT--\> número de plaquetas NEUTROPHIL--\>
+neutrófilos LYMPHO--\> cantidad de linfa MONOCYTE--\> cantidad de
+monocitos EOSINO--\> cantidad de eosinófilos DIAGNOSIS--\> diagnosis
+Hypersensitivity--\> hipersensibilidad o no cp--\>tipo de dolor en el
+pecho chol--\> colestoral en mg/dl obtenido a través del sensor de IMC
+FBS--\> (azúcar en sangre en ayunas \> 120 mg/dl) (1 = verdadero; 0 =
+falso) trestbps--\> presión arterial en reposo (en mm Hg)
+restecg--\>resultados electrocardiográficos en reposo -- Valor 0: normal
+-- Valor 1: tener anomalía de la onda ST-T (inversiones de la onda T y/o
+elevación del ST o depresión de \> 0,05 mV) -- Valor 2: mostrar
+hipertrofia ventricular izquierda probable o definida según los
+criterios de Estrés Thalach--\> frecuencia cardíaca máxima alcanzada
+ca--\> cantidad de una proteína llamada CA 19-9 (antígeno del cáncer
+19-9) en la sangre thal--\> talasemia num--\> número de afectados\
+mortality--\> muerte o no
 
 ## Resumen sobre las variables (mínimo, máximo, media, mediana, primer y tercer cuartil
+
 ```{r}
 summary(datos)
 ```
 
+## 4.2. Transformación de variables
+Vamos a unificar las variables mortality y follow.up en una única variable categórica. Para ello, discretizamos la variable follow.up en dos, la manera de realizarlo será en primer lugar fijar un tiempo mínimo de seguimiento, es decir, clasificaremos según la mediana de todos los datos; aquellos registros que sean menores, los indicaremos como "menores", y los mayores como "mayores".
+Una vez hecho esto, habremos discretizado la variable follow up en dos niveles, ahora procederemos a la unión de la variable mortality y follow up dando como resultado 4 categorías.
+Procedemos a realizarlo:
+```{r}
+mediana<- median(datos2$Follow.Up)
+df <- datos2 %>% mutate(Follow.Up = ifelse(Follow.Up <mediana, "menor", "mayor"))%>% 
+  mutate(respuesta = ifelse(Mortality == 0 & Follow.Up == "menor", "SI",
+                                                                                                                ifelse(Mortality == 0 & Follow.Up == "mayor", "SS", 
+                                                                                                                       ifelse(Mortality == 1 & Follow.Up == "menor", "NI",
+                                                                                                                              "NS"))))
+```
+Ahora eliminamos las columnas Mortality y Follow.Up.
+```{r}
+df<- df %>% select(-c("Mortality", "Follow.Up"))
+```
+Transformamos 
+```{r}
+df$respuesta<- as.factor(df$respuesta)
+```
 
 
+```{r}
+modelo <- glm(respuesta ~ C.P.K , data = df, family = binomial)
+```
 
 
 
